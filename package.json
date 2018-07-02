@@ -6,7 +6,10 @@
   "author": "PatrikStas <patrik.stas@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
+    "fs-extra": "^6.0.1",
     "node-cron": "^1.2.1",
+    "path": "^0.12.7",
     "winston": "^3.0.0"
   }
 }
