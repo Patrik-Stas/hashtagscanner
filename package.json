@@ -1,0 +1,12 @@
+{
+  "name": "hashtag-daemon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Patrik-Stas/hashtagscanner.git",
+  "author": "PatrikStas <patrik.stas@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "node-cron": "^1.2.1",
+    "winston": "^3.0.0"
+  }
+}
