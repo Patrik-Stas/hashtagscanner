@@ -67,8 +67,29 @@ Out of 720 2 letter prefixes, let's assume that there is 100 commonly used only 
 
 Naturally, out of these 2000 prefixes, many of them won't have words with enough usages to qualify as prefix for further generated 4 letter prefiexes.
  
-  
+## Hashtag rediscovery
+We need to account for situations that we discover the same tag again, due to nature of prefix expansion algorithm. No special handling required, simply update number of tag uses.
 
 
 #Tag database
 The datastructure holding tags should be as simple ass possible, so that it's easy to enhance prefix scanning algorithm easily.
+
+We need to make distinction between hashtags and prefixes. 
+
+## Prefixes - "what to search"
+Datastructure / DB collection storing prefixes used for tag search. We should remember when was a prefix scanned the last time, maybe length of the prefix (so we could easily an efficiently select / sort prefixes by length).
+ 
+## HashTags - "what was found"
+Datastructure / DB Collection storing hashtags and their use counts.  
+
+## Special areas of interested
+If we are interested to discover area of specific tags, say we quickly need to find out more about 60 tags related to drawings. We can simply add these words are unscanned prefixes and run scanner through them. We however need to assure that in this case, the scanner will be running only through these prefixes and new prefixes emerged out of them - not just fallback into whatever prefixes we already had in database.
+
+To solve this, we can have set of root prefixes and can tell scanner which prefix category it should be using. Therefore duplicate prefixes can appear, accross 2 categories. We could have:
+
+- root prefixes of latin alphabet
+- root prefixes of love related words 
+
+THe latin alphabet can eventually be expanded to prefixes which already exist in the love related prefix collection. To avoid inefficiencies, we could by default ignore categories and ignore found duplicities.
+
+   
