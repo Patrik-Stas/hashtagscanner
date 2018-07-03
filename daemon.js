@@ -12,21 +12,31 @@ const cookie = fs.readFileSync(cookiePath, 'utf8');
 
 let index = 0;
 
+async function getNextTagToScan() {
+
+    result = await model.HashTag.find({was:prefix}).exec();
+}
+
+
 cron.schedule('*/3 * * * * *', async function () {
-    prefix = targets[index];
 
     winston.info(`... Scanning tag ${prefix} ... `);
     hashtags = await scanner.scanPrefix(cookie, prefix);
 
     hashtags.forEach((hashtag, index) => {
+        console.log(JSON.stringify(result));
+        if (result.length) {
+            console.log(`tag ${prefix} already contained in db. Skipping.`)
+        }
+        else {
+            console.log(`Tag ${prefix} missing in database`);
+        }
+
         console.log(`${prefix} ${index}: ${JSON.stringify(hashtag)}`);
-        let record = new model.HashTag({name: hashtag.name, count: hashtag.count, scantime: hashtag.scantime});
-        record.save(function (err, saved) {
+        hashtag.save(function (err, saved) {
             if (err) return console.error(err);
             console.log(`New tag saved ${saved.name}`);
         });
     });
-
-    index++;
 });
 

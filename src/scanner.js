@@ -1,4 +1,13 @@
-const model = require('./model');
+const winston = require('winston');
+const axios = require('axios');
+
+class HashTagModel {
+    constructor(name, count, scantime) {
+        this.name = name;
+        this.count = count;
+        this.scantime = scantime;
+    }
+};
 
 exports.scanPrefix = async (cookie, prefix) => {
     let hashtags = [];
@@ -15,11 +24,18 @@ exports.scanPrefix = async (cookie, prefix) => {
                 'authority': 'www.instagram.com',
                 'x-requested-with': 'XMLHttpRequest'
             });
-        winston.debug("Received result from instagram");
-        winston.debug(JSON.stringify(result.data));
+        console.debug("Received result from instagram");
+        console.debug(JSON.stringify(result.data));
+
+        // let's assume here that anything found will be considered as not yet scanned
+        // therefore rescanning prefix "hello" will consequently rescan the whole prefix subtree
 
         result.data.hashtags.forEach((tagobj) => {
-            let hashtag = new model.HashTag(tagobj.hashtag.name, tagobj.hashtag.media_count, new Date().toISOString(), prefix);
+            let hashtag = new HashTagModel(
+                tagobj.hashtag.name,
+                tagobj.hashtag.media_count,
+                new Date().toISOString()
+            );
             hashtags.push(hashtag);
         })
     } catch (error) {

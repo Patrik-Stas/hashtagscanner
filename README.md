@@ -22,3 +22,16 @@ Requirement on DB is that I need to be able to quickly retrieve be any of the at
 Simply indexing everything should be absolutely sufficient for starter.
 
 
+#Tag discovery
+Here's a thing. 
+- For prefix `a` you'll get returned nothing from instagram API. 
+- For prefix `my` you get `myjob` but not get `myjoy`, and nothing from `myj*` except for `myjob`. 
+That'se because there's so many words prefixed with `my`, only `myjob` makes it out of `myjob`. Once we get deeper, 
+to longer prefixes, like `myjob`, there's nto as many hastags anymore - yet, we'll still miss some. For example `myjob` gets us `myjobdoesntsuck` but will not get us `myjobdoesnotsuck`.
+
+Hence, it would make sense start of from set of roottags covering first two or three letter combinations `jo`, `ak`, `pre`. From this we get back some pretty major, widly used hashtags. 
+Then we can expand our prefixes, but extracting prefixes from the found hastags. So if we get `myjobdoesntsuck`, we can try to explore its prefix `myjobd`. The question how deep we should keep doing this. Should also try to scan `myjobdo` ? Probably not in this case, cause we will only get small trashtags.  
+
+
+#Tag database
+The datastructure holding tags should be as simple ass possible, so that it's easy to enhance prefix scanning algorithm easily.

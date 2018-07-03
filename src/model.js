@@ -13,7 +13,8 @@ var tagscheme = mongoose.Schema({
     count: Number,
     scantime: String,
     parent: String,
-    categories: Array
+    wasScanned: Boolean,
+    length: Number
 });
 
 exports.HashTag = mongoose.model('hashtag', tagscheme);
